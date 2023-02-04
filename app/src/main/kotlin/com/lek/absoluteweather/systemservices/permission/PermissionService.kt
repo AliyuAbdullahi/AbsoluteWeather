@@ -27,7 +27,7 @@ class PermissionService : IPermissionService {
     private lateinit var locationPermissionRequest: ActivityResultLauncher<String>
     private lateinit var notificationPermissionRequest: ActivityResultLauncher<String>
 
-    override suspend fun initIn(activity: ComponentActivity): Boolean {
+    override suspend fun initIn(activity: ComponentActivity) {
         var locationEnabled = false
         var areNotificationsEnabled = false
         if (
@@ -57,8 +57,6 @@ class PermissionService : IPermissionService {
             activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
                 notificationPermissionEnabled.tryEmit(granted)
             }
-
-        return locationEnabled
     }
 
     override fun requestLocationPermission() {

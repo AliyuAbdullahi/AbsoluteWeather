@@ -33,10 +33,7 @@ class WeatherListViewModel @Inject constructor(
     suspend fun init(activity: ComponentActivity) {
         startObservingLocationPermissionChange()
         startObservingNotificationPermission()
-        val locationEnabled = permissionService.initIn(activity)
-        if (locationEnabled) {
-            requestWeatherForLocation()
-        }
+        permissionService.initIn(activity)
     }
 
     private fun startListeningForWeatherUpdates() {
