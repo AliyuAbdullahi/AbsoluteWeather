@@ -1,7 +1,7 @@
 package com.lek.absoluteweather.di
 
-import com.lek.absoluteweather.ui.systemservices.permission.IPermissionService
-import com.lek.absoluteweather.ui.systemservices.permission.PermissionService
+import com.lek.absoluteweather.systemservices.permission.IPermissionService
+import com.lek.absoluteweather.systemservices.permission.PermissionService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

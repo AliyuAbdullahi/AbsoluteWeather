@@ -1,8 +1,8 @@
 package com.lek.absoluteweather.di
 
 import android.content.Context
-import com.lek.absoluteweather.ui.systemservices.location.UserLocationService
-import com.lek.absoluteweather.ui.weatherlist.systemservices.location.ILocationService
+import com.lek.absoluteweather.systemservices.location.UserLocationService
+import com.lek.absoluteweather.systemservices.location.ILocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

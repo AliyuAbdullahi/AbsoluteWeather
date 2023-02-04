@@ -4,7 +4,7 @@ import androidx.activity.ComponentActivity
 import app.cash.turbine.test
 import com.lek.absoluteweather.ui.model.ViewEvent
 import com.lek.absoluteweather.ui.viewmodel.WeatherListViewModel
-import com.lek.absoluteweather.ui.systemservices.permission.IPermissionService
+import com.lek.absoluteweather.systemservices.permission.IPermissionService
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

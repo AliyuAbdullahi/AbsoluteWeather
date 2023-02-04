@@ -3,18 +3,27 @@ package com.lek.absoluteweather.ui.viewmodel
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lek.absoluteweather.systemservices.location.ILocationService
+import com.lek.absoluteweather.systemservices.location.WeatherRequestWorkManager
+import com.lek.absoluteweather.systemservices.permission.IPermissionService
 import com.lek.absoluteweather.ui.model.ViewEvent
 import com.lek.absoluteweather.ui.model.WeatherListState
-import com.lek.absoluteweather.ui.systemservices.permission.IPermissionService
+import com.lek.domain.model.WeatherResult
+import com.lek.domain.usecase.GetWeatherResultStreamUseCase
+import com.lek.domain.usecase.invoke
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class WeatherListViewModel @Inject constructor(
-    private val permissionService: IPermissionService
+    private val permissionService: IPermissionService,
+    private val locationService: ILocationService,
+    private val weatherRequestWorkManager: WeatherRequestWorkManager,
+    private val getWeatherResultStreamUseCase: GetWeatherResultStreamUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableSharedFlow<WeatherListState> = MutableSharedFlow(replay = 1)
@@ -24,7 +33,21 @@ class WeatherListViewModel @Inject constructor(
     suspend fun init(activity: ComponentActivity) {
         startObservingLocationPermissionChange()
         startObservingNotificationPermission()
-        permissionService.initIn(activity)
+        val locationEnabled = permissionService.initIn(activity)
+        if (locationEnabled) {
+            requestWeatherForLocation()
+        }
+    }
+
+    private fun startListeningForWeatherUpdates() {
+        viewModelScope.launch {
+            getWeatherResultStreamUseCase().distinctUntilChanged().collect { result ->
+                if (result is WeatherResult.Success) {
+                    updateState { copy(isLoading = false, weatherList = result.data) }
+                    mutableState.emit(weatherListState)
+                }
+            }
+        }
     }
 
     private fun startObservingNotificationPermission() {
@@ -36,11 +59,29 @@ class WeatherListViewModel @Inject constructor(
         }
     }
 
+    private fun startObservingLocationUpdate() {
+        viewModelScope.launch {
+            locationService.locationStatus.collect { userLocation ->
+                if (userLocation.isValid) {
+                    weatherRequestWorkManager.publishLocation(userLocation.city)
+                }
+            }
+        }
+    }
+
+    private fun requestWeatherForLocation() {
+        startObservingLocationUpdate()
+        startListeningForWeatherUpdates()
+        viewModelScope.launch {
+            locationService.fetchLastLocation()
+        }
+    }
+
     private fun startObservingLocationPermissionChange() {
         viewModelScope.launch {
             permissionService.locationPermissionGranted.collect { isGranted ->
                 if (isGranted) {
-                    // TODO Start Worker
+                    requestWeatherForLocation()
                 }
                 updateState { copy(isLocationPermissionGranted = isGranted, isLoading = false) }
                 mutableState.emit(weatherListState)
@@ -58,10 +99,13 @@ class WeatherListViewModel @Inject constructor(
 
     fun onEvent(viewEvent: ViewEvent) {
         when (viewEvent) {
-            ViewEvent.RefreshList -> { /* TODO start worker */ }
-            ViewEvent.StartDetail -> { /* TODO Open Details Screen */ }
+            ViewEvent.RefreshList -> { /* TODO start worker */
+            }
+            ViewEvent.StartDetail -> { /* TODO Open Details Screen */
+            }
             ViewEvent.UserDenyNotification -> {
-                updateState { copy(alreadyAskedForNotification = true, isLoading = true) }
+                updateState { copy(alreadyAskedForNotification = true) }
+                mutableState.tryEmit(weatherListState)
             }
             ViewEvent.RequestLocationPermission -> requestLocationPermission()
             ViewEvent.RequestNotificationPermission -> requestNotificationPermission()

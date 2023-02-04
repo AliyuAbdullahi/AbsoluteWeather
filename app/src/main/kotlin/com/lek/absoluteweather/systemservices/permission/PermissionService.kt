@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui.systemservices.permission
+package com.lek.absoluteweather.systemservices.permission
 
 import android.Manifest
 import android.app.NotificationManager
@@ -9,7 +9,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.lek.absoluteweather.ui.systemservices.permission.IPermissionService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -28,7 +27,7 @@ class PermissionService : IPermissionService {
     private lateinit var locationPermissionRequest: ActivityResultLauncher<String>
     private lateinit var notificationPermissionRequest: ActivityResultLauncher<String>
 
-    override suspend fun initIn(activity: ComponentActivity) {
+    override suspend fun initIn(activity: ComponentActivity): Boolean {
         var locationEnabled = false
         var areNotificationsEnabled = false
         if (
@@ -58,6 +57,8 @@ class PermissionService : IPermissionService {
             activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
                 notificationPermissionEnabled.tryEmit(granted)
             }
+
+        return locationEnabled
     }
 
     override fun requestLocationPermission() {
