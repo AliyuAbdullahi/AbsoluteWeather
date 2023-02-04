@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AbsoluteWeather</string>
+    <string name="location_request_title">Location Permission</string>
+    <string name="location_permission_message">In order to show the weather for your location, we need you to enable your location.</string>
+    <string name="will_accept_notification_permission">I\'m in</string>
+    <string name="will_deny_notification_permission">No thanks</string>
+    <string name="notification_request_title">Notification Permission</string>
+    <string name="notification_permission_message">To get live weather updates, please enable notification</string>
 </resources>

@@ -76,9 +76,8 @@ internal class WeatherRepositoryTest {
         coEvery { weatherService.getWeatherFor(any(), any(), any()) }.coAnswers { response }
 
         coEvery { weatherDao.add(any()) }.just(Runs)
-        coEvery { weatherDao.getWeather() }.coAnswers {
-            listOf(entity)
-        }
+        coEvery { weatherDao.getWeather() }.coAnswers { listOf(entity) }
+
         val result = repository.fetchWeather(city = "Hamburg", units = MeasuringUnit.METRIC.value)
         coVerify { weatherDao.getWeather() }
         assert(result is WeatherResult.Failure)
