@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui.systemservices.permission
+package com.lek.absoluteweather.systemservices.permission
 
 import androidx.activity.ComponentActivity
 import kotlinx.coroutines.flow.Flow

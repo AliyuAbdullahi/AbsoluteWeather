@@ -3,12 +3,16 @@ package com.lek.data.repository
 import com.lek.data.api.model.WeatherDataContent
 import com.lek.data.api.model.WeatherResponse
 import com.lek.data.room.RoomWeatherEntity
+import com.lek.domain.model.DayOfTheWeek
 import com.lek.domain.model.Weather
 import com.lek.domain.model.WeatherResult
 import com.lek.domain.model.WeatherResult.Failure
 import java.util.Calendar
 import java.util.Date
+import java.util.GregorianCalendar
 import retrofit2.Response
+
+private const val EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER = 1000
 
 object ModelMapper {
 
@@ -24,7 +28,8 @@ object ModelMapper {
 
     private fun List<WeatherDataContent>.toDomainModel(): List<Weather> = map { dataList ->
         val (date, main, weather, visibility, formattedDate) = dataList
-        val currentWeather = weather.firstOrNull() ?: throw IllegalArgumentException("Weather object is empty")
+        val currentWeather =
+            weather.firstOrNull() ?: throw IllegalArgumentException("Weather object is empty")
         Weather(
             id = currentWeather.id,
             date = date,
@@ -63,7 +68,7 @@ object ModelMapper {
         val current = Calendar.getInstance()
         val target = Calendar.getInstance()
         val currentTimeInMill = System.currentTimeMillis()
-        target.time = Date(this * 1000)
+        target.time = Date(this * EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER)
         current.time = Date(currentTimeInMill)
 
         val currentYear = current.get(Calendar.YEAR)
@@ -74,17 +79,23 @@ object ModelMapper {
         val targetDayOfMonth = target.get(Calendar.DAY_OF_MONTH)
 
         return currentYear == targetYear
-                    && currentMonth == targetMonth
-                    && currentDayOfMonth == targetDayOfMonth
+                && currentMonth == targetMonth
+                && currentDayOfMonth == targetDayOfMonth
     }
 
-    private val days =
-        listOf("Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday", "Monday")
-
-    private fun Long.toDayOfTheWeek(): String {
-        val calendar = Calendar.getInstance()
-        calendar.time = Date(this)
-        return days[calendar.get(Calendar.DAY_OF_WEEK)]
+    private fun Long.toDayOfTheWeek(): DayOfTheWeek {
+        val calendar = GregorianCalendar()
+        calendar.time = Date(this * EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER)
+        return when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.MONDAY -> DayOfTheWeek.Mon
+            Calendar.TUESDAY -> DayOfTheWeek.Tue
+            Calendar.WEDNESDAY -> DayOfTheWeek.Wed
+            Calendar.THURSDAY -> DayOfTheWeek.Thu
+            Calendar.FRIDAY -> DayOfTheWeek.Fri
+            Calendar.SATURDAY -> DayOfTheWeek.Sat
+            Calendar.SUNDAY -> DayOfTheWeek.Sun
+            else -> throw IllegalArgumentException("Invalid date $this")
+        }
     }
 
     internal fun List<RoomWeatherEntity>.toDomainModel(): List<Weather> = map { entity ->

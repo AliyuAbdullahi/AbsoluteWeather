@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui.systemservices.location
+package com.lek.absoluteweather.systemservices.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,9 +10,8 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.lek.absoluteweather.ui.systemservices.location.model.LocationStatus
-import com.lek.absoluteweather.ui.systemservices.location.model.UserLocation
-import com.lek.absoluteweather.ui.weatherlist.systemservices.location.ILocationService
+import com.lek.absoluteweather.systemservices.location.model.LocationStatus
+import com.lek.absoluteweather.systemservices.location.model.UserLocation
 import java.util.Locale
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

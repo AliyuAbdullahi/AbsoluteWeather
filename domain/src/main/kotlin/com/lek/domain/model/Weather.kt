@@ -15,11 +15,11 @@ data class Weather(
     val visibility: Long,
     val formattedDateTime: String,
     val isToday: Boolean,
-    val dayOfTheWeek: String
+    val dayOfTheWeek: DayOfTheWeek
 ) {
     val isHot = temp > 25
     val isCold = temp < 10
-    val iconUrl = "http://openweathermap.org/img/wn/${icon}@2x.png"
+    val iconUrl = "https://openweathermap.org/img/wn/${icon}@2x.png"
 }
 
 data class WeatherRequest(
@@ -30,4 +30,8 @@ data class WeatherRequest(
 enum class MeasuringUnit(val value: String) {
     METRIC("metric"),
     // We are only supporting metric system for now
+}
+
+enum class DayOfTheWeek {
+    Mon, Tue, Wed, Thu, Fri, Sat, Sun
 }

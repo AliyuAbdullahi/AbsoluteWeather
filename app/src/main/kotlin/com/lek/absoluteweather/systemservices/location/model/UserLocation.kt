@@ -1,9 +1,11 @@
-package com.lek.absoluteweather.ui.systemservices.location.model
+package com.lek.absoluteweather.systemservices.location.model
 
 data class UserLocation(
     val city: String,
     val status: LocationStatus
 ) {
+
+    val isValid = status != LocationStatus.FAILED && city.isNotBlank()
 
     val playServiceRequired = status == LocationStatus.REQUIRES_PLAY_SERVICE
 

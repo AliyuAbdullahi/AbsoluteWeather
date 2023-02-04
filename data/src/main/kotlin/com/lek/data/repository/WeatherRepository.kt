@@ -33,6 +33,7 @@ class WeatherRepository(
                     mutableInfo.emit(weatherResult.copy(backUp = currentData))
                 }
                 is WeatherResult.Success -> {
+                    weatherDao.deleteAll()
                     weatherResult.data.forEach {
                         weatherDao.add(it.toRoomEntity())
                     }
