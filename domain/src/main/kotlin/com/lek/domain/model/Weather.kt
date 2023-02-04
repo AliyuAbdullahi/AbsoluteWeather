@@ -16,7 +16,11 @@ data class Weather(
     val formattedDateTime: String,
     val isToday: Boolean,
     val dayOfTheWeek: String
-)
+) {
+    val isHot = temp > 25
+    val isCold = temp < 10
+    val iconUrl = "http://openweathermap.org/img/wn/${icon}@2x.png"
+}
 
 data class WeatherRequest(
     val city: String,
