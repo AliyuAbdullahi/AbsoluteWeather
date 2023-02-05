@@ -11,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.lek.absoluteweather.ui.theme.AbsoluteWeatherTheme
-import com.lek.absoluteweather.ui.component.WeatherListScreen
+import com.lek.absoluteweather.ui.weatherlist.component.WeatherListScreen
 import com.lek.absoluteweather.ui.model.ViewEvent
 import com.lek.absoluteweather.ui.model.WeatherListState
 import com.lek.absoluteweather.ui.viewmodel.WeatherListViewModel

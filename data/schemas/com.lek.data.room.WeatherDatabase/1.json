@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3aaccb6966947ecacf82bfd97b92f5ac",
+    "identityHash": "7d39a972a9b3213a70b3e10c60fbe241",
     "entities": [
       {
         "tableName": "weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `temp` REAL NOT NULL, `feels_like` REAL NOT NULL, `min_temperature` REAL NOT NULL, `max_temperature` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `main` TEXT NOT NULL, `description` TEXT NOT NULL, `icon` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `formatted_date_time` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `minTemp` REAL NOT NULL, `maxTemp` REAL NOT NULL, `morningTemp` REAL NOT NULL, `dayTemp` REAL NOT NULL, `eveningTemp` REAL NOT NULL, `nightTemp` REAL NOT NULL, `morningFeelsLike` REAL NOT NULL, `dayFeelsLike` REAL NOT NULL, `eveningFeelsLike` REAL NOT NULL, `nightFeelsLike` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL, `main` TEXT NOT NULL, `description` TEXT NOT NULL, `icon` TEXT NOT NULL, `city` TEXT NOT NULL, `windSpeed` REAL NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,26 +21,62 @@
             "notNull": true
           },
           {
-            "fieldPath": "temp",
-            "columnName": "temp",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "feelsLike",
-            "columnName": "feels_like",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
             "fieldPath": "minTemp",
-            "columnName": "min_temperature",
+            "columnName": "minTemp",
             "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "maxTemp",
-            "columnName": "max_temperature",
+            "columnName": "maxTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "morningTemp",
+            "columnName": "morningTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayTemp",
+            "columnName": "dayTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eveningTemp",
+            "columnName": "eveningTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nightTemp",
+            "columnName": "nightTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "morningFeelsLike",
+            "columnName": "morningFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayFeelsLike",
+            "columnName": "dayFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eveningFeelsLike",
+            "columnName": "eveningFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nightFeelsLike",
+            "columnName": "nightFeelsLike",
             "affinity": "REAL",
             "notNull": true
           },
@@ -75,15 +111,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "visibility",
-            "columnName": "visibility",
-            "affinity": "INTEGER",
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "formattedDateTime",
-            "columnName": "formatted_date_time",
-            "affinity": "TEXT",
+            "fieldPath": "windSpeed",
+            "columnName": "windSpeed",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -100,7 +136,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3aaccb6966947ecacf82bfd97b92f5ac')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d39a972a9b3213a70b3e10c60fbe241')"
     ]
   }
 }

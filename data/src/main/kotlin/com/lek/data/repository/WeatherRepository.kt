@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 private const val appId = "648a3aac37935e5b45e09727df728ac2" // grab app id from open weather api
+private const val RESPONSE_COUNT = 16
 
 class WeatherRepository(
     private val weatherService: WeatherService,
@@ -24,7 +25,12 @@ class WeatherRepository(
         get() = mutableInfo
 
     override suspend fun fetchWeather(city: String, units: String): WeatherResult {
-        val response = weatherService.getWeatherFor(city = city, units = units, appId = appId)
+        val response = weatherService.getWeatherFor(
+            city = city,
+            units = units,
+            count = RESPONSE_COUNT,
+            appId = appId
+        )
         return mapToResult(response).also { weatherResult ->
             when (weatherResult) {
                 is WeatherResult.Failure -> {

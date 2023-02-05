@@ -4,6 +4,7 @@ import com.lek.data.api.model.WeatherDataContent
 import com.lek.data.api.model.WeatherResponse
 import com.lek.data.room.RoomWeatherEntity
 import com.lek.domain.model.DayOfTheWeek
+import com.lek.domain.model.EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER
 import com.lek.domain.model.Weather
 import com.lek.domain.model.WeatherResult
 import com.lek.domain.model.WeatherResult.Failure
@@ -12,8 +13,6 @@ import java.util.Date
 import java.util.GregorianCalendar
 import retrofit2.Response
 
-private const val EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER = 1000
-
 object ModelMapper {
 
     fun mapToResult(result: Response<WeatherResponse>): WeatherResult =
@@ -21,38 +20,64 @@ object ModelMapper {
             Failure(result.errorBody().toString(), listOf())
         } else {
             result.body()?.let { weatherResponse ->
-                WeatherResult.Success(weatherResponse.result.toDomainModel())
+                WeatherResult.Success(
+                    weatherResponse.result.toDomainModel()
+                        .map { it.copy(city = weatherResponse.city.name) })
             } ?: Failure("Unknown network failure", listOf())
         }
 
-
     private fun List<WeatherDataContent>.toDomainModel(): List<Weather> = map { dataList ->
-        val (date, main, weather, visibility, formattedDate) = dataList
+        val (date, temperature, weatherData, pressure, humidity, windSpeed, feelsLike) = dataList
         val currentWeather =
-            weather.firstOrNull() ?: throw IllegalArgumentException("Weather object is empty")
+            weatherData.firstOrNull() ?: throw IllegalArgumentException("Weather object is empty")
         Weather(
             id = currentWeather.id,
             date = date,
-            temp = main.temp,
-            feelsLike = main.feelsLike,
-            minTemp = main.minTemp,
-            maxTemp = main.maxTemp,
-            pressure = main.pressure,
-            humidity = main.humidity,
+            minTemp = temperature.min,
+            maxTemp = temperature.max,
+            morningTemp = temperature.morning,
+            dayTemp = temperature.day,
+            eveningTemp = temperature.evening,
+            nightTemp = temperature.night,
+            morningFeelsLike = feelsLike.morning,
+            dayFeelsLike = feelsLike.day,
+            eveningFeelsLike = feelsLike.evening,
+            nightFeelsLike = feelsLike.night,
+            pressure = pressure,
+            humidity = humidity,
             main = currentWeather.main,
             description = currentWeather.description,
             icon = currentWeather.icon,
-            visibility = visibility,
-            formattedDateTime = formattedDate,
             isToday = date.isToday(),
+            city = "",
+            windSpeed = windSpeed,
             dayOfTheWeek = date.toDayOfTheWeek()
         )
+    }
+
+    fun Weather.isTomorrow(): Boolean {
+        val current = Calendar.getInstance()
+        val target = Calendar.getInstance()
+        val currentTimeInMill = TimeHelper.getNow()
+        target.time = Date(this.date * EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER)
+        current.time = Date(currentTimeInMill)
+
+        val currentYear = current.get(Calendar.YEAR)
+        val targetYear = target.get(Calendar.YEAR)
+        val currentMonth = current.get(Calendar.MONTH)
+        val targetMonth = target.get(Calendar.MONTH)
+        val currentDayOfMonth = current.get(Calendar.DAY_OF_MONTH)
+        val targetDayOfMonth = target.get(Calendar.DAY_OF_MONTH)
+
+        return currentYear == targetYear
+                && currentMonth == targetMonth
+                && (currentDayOfMonth + 1) == targetDayOfMonth
     }
 
     internal fun Long.isFromToday(): Boolean {
         val current = Calendar.getInstance()
         val target = Calendar.getInstance()
-        val currentTimeInMill = System.currentTimeMillis()
+        val currentTimeInMill = TimeHelper.getNow()
         target.time = Date(this)
         current.time = Date(currentTimeInMill)
 
@@ -67,7 +92,7 @@ object ModelMapper {
     private fun Long.isToday(): Boolean {
         val current = Calendar.getInstance()
         val target = Calendar.getInstance()
-        val currentTimeInMill = System.currentTimeMillis()
+        val currentTimeInMill = TimeHelper.getNow()
         target.time = Date(this * EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER)
         current.time = Date(currentTimeInMill)
 
@@ -102,18 +127,24 @@ object ModelMapper {
         Weather(
             id = entity.id,
             date = entity.date,
-            temp = entity.temp,
-            feelsLike = entity.feelsLike,
             minTemp = entity.minTemp,
             maxTemp = entity.maxTemp,
+            morningTemp = entity.morningTemp,
+            dayTemp = entity.dayTemp,
+            eveningTemp = entity.eveningTemp,
+            nightTemp = entity.nightTemp,
+            morningFeelsLike = entity.morningFeelsLike,
+            dayFeelsLike = entity.dayFeelsLike,
+            eveningFeelsLike = entity.eveningFeelsLike,
+            nightFeelsLike = entity.nightFeelsLike,
             pressure = entity.pressure,
             humidity = entity.humidity,
             main = entity.main,
             description = entity.description,
             icon = entity.icon,
-            visibility = entity.visibility,
-            formattedDateTime = entity.formattedDateTime,
             isToday = entity.date.isToday(),
+            city = entity.city,
+            windSpeed = entity.windSpeed,
             dayOfTheWeek = entity.date.toDayOfTheWeek()
         )
     }
@@ -122,16 +153,26 @@ object ModelMapper {
         RoomWeatherEntity(
             id = id,
             date = date,
-            temp = temp,
-            feelsLike = feelsLike,
             minTemp = minTemp,
             maxTemp = maxTemp,
+            morningTemp = morningTemp,
+            dayTemp = dayTemp,
+            eveningTemp = eveningTemp,
+            nightTemp = nightTemp,
+            morningFeelsLike = morningFeelsLike,
+            dayFeelsLike = dayFeelsLike,
+            eveningFeelsLike = eveningFeelsLike,
+            nightFeelsLike = nightFeelsLike,
             pressure = pressure,
             humidity = humidity,
             main = main,
             description = description,
             icon = icon,
-            visibility = visibility,
-            formattedDateTime = formattedDateTime
+            city = city,
+            windSpeed = windSpeed
         )
+}
+
+object TimeHelper {
+    fun getNow() = System.currentTimeMillis()
 }

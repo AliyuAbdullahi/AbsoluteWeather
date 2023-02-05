@@ -11,6 +11,7 @@ interface WeatherService {
     suspend fun getWeatherFor(
         @Query("q") city: String,
         @Query("units") units: String,
+        @Query("cnt") count: Int,
         @Query("appid") appId: String
     ): Response<WeatherResponse>
 }
