@@ -6,4 +6,11 @@
     <string name="will_deny_notification_permission">No thanks</string>
     <string name="notification_request_title">Notification Permission</string>
     <string name="notification_permission_message">To get live weather updates, please enable notification</string>
+    <string name="temperature_celsius">%1$s°C</string>
+    <string name="feels_like">Feels like %1$s°C</string>
+    <string name="today">Today, %1$s</string>
+    <string name="today_text">Today</string>
+    <string name="tomorrow_text">Tomorrow</string>
+    <string name="formatted_day_month">%1$s</string>
+    <string name="loading">Loading Weather Data…</string>
 </resources>

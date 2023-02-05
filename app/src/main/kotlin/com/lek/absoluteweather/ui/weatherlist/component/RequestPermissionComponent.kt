@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui.component
+package com.lek.absoluteweather.ui.weatherlist.component
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
