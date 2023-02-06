@@ -13,13 +13,13 @@
   **AbsoluteWeather** Is a weather update Android application. App shows notification update within 15 minutes interval. 
   
 #### Images from Android
-<img src="app_img1.png" width="700" height="500" />
-<img src="app_img2.png" width="700" height="500" />
-<img src="app_img3.png" width="700" height="500" />
-<img src="app_img4.png" width="700" height="500" />
+<img src="app_img1.png" width="400" height="800" />
+<img src="app_img2.png" width="400" height="800" />
+<img src="app_img3.png" width="400" height="800" />
+<img src="app_img4.png" width="400" height="800" />
 
 ### Project Structure
-<img src="project_arch.png" width="700" height="500" />
+<img src="project_arch.png" width="800" height="400" />
 
  ### Architecture
  The Project is built using the [Clean Architecture](https://developer.android.com/topic/architecture?gclid=CjwKCAjw_ISWBhBkEiwAdqxb9i24YwlLSa_1H2Fvx9Ul4hQ0p4j7Gh7awjnS8BER1O8u8KH7BK8OFxoCSmsQAvD_BwE&gclsrc=aw.ds). 
