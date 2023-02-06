@@ -100,7 +100,7 @@ fun TemperatureBar(
             Text(
                 text = valueString,
                 style = MaterialTheme.typography.subtitle1,
-                modifier = Modifier.width(40.dp)
+                modifier = Modifier.weight(1F)
             )
         }
     }
