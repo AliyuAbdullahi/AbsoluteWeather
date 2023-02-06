@@ -88,7 +88,7 @@ fun TemperatureDescription(
             text = stringResource(id = R.string.feels_like_label),
             style = MaterialTheme.typography.subtitle1
         )
-        Row() {
+        Row {
             TimeOfTheDayTemp(
                 modifier = Modifier.weight(1F),
                 timeOfDay = stringResource(id = R.string.morning),

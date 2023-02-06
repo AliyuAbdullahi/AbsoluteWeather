@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,11 +27,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lek.absoluteweather.R
 import com.lek.absoluteweather.ui.component.ImageComponent
-import com.lek.absoluteweather.ui.theme.AbsoluteWeatherTheme
 import com.lek.absoluteweather.ui.theme.Blue500
 import com.lek.absoluteweather.ui.theme.Blue900
 import com.lek.absoluteweather.ui.theme.Grey700

@@ -9,6 +9,8 @@ java {
 }
 
 dependencies {
+
+    // Coroutine support for reactive programming and async operations
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     // testing and mocks
