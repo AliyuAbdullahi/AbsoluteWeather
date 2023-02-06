@@ -4,7 +4,7 @@
 ## How to Build
 * Clone the project to your local machine and open with Android studio.
 	* ### Android
-		* Open weather API requires appId, add your appId in com.lek.data.repository.WeatherRepository. Replace the empty string for appId with your appId.
+		* [Open weather API](https://openweathermap.org/api) requires appId, add your appId in com.lek.data.repository.WeatherRepository. Replace the empty string for appId with your appId.
 	    * Internet is required so please turn on your internet before building.
 		* Let Android studio download dependencies.
 		* Run the app Configuration. 
