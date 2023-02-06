@@ -32,3 +32,7 @@
 * [Work Manager for background service and notification](https://developer.android.com/topic/libraries/architecture/workmanager?gclid=Cj0KCQiA54KfBhCKARIsAJzSrdq66-L4pimBaxsKC7-pQNXZlzwuVciKnSw6pjc50nrlPrxCeO0BJE0aAkgtEALw_wcB&gclsrc=aw.ds)
 * [Jetpack Compose UI](https://developer.android.com/jetpack/compose?gclid=CjwKCAjw_ISWBhBkEiwAdqxb9nzoYY4WLAU43nlDB8IQzOF35aFSFWex9lNGAYJICk40shwaF8lodhoCkWkQAvD_BwE&gclsrc=aw.ds)
 * [Jetpack ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel?gclid=CjwKCAjw_ISWBhBkEiwAdqxb9myAeiqd-W8rKzPejJuUSdsCVDPTjWkgw8c_80zRF8ZD1gLI07KtLBoCUm8QAvD_BwE&gclsrc=aw.ds)
+
+### TODOS
+* Handle internet connectivity. Notify the user about internet connection status.
+* Add UI tests
