@@ -6,6 +6,7 @@ import com.lek.data.api.model.WeatherResponse
 import com.lek.data.repository.resource.testWeatherResponseData
 import com.lek.data.room.WeatherDao
 import com.lek.domain.model.MeasuringUnit
+import com.lek.domain.model.Weather
 import com.lek.domain.model.WeatherResult
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -71,7 +72,6 @@ internal class WeatherRepositoryTest {
         every { response.isSuccessful }.returns(false)
         every { response.body() }.returns(null)
         every { response.code() }.returns(404)
-        every { TimeHelper.getNow() }.returns(1675425057353L * 1000)
         every { response.errorBody() }.returns(mockk())
         coEvery { weatherService.getWeatherFor(any(), any(), any(), any()) }.coAnswers { response }
 
@@ -80,5 +80,12 @@ internal class WeatherRepositoryTest {
         val result = repository.fetchWeather(city = "Hamburg", units = MeasuringUnit.METRIC.value)
         coVerify { weatherDao.getWeather() }
         assert(result is WeatherResult.Failure)
+    }
+
+    @Test
+    fun `WHEN a weather is selected in the repository - the result can be obtained`() {
+        val weather: Weather = mockk()
+        repository.setSelectedWeather(weather)
+        assertEquals(weather, repository.getSelectedWeather())
     }
 }

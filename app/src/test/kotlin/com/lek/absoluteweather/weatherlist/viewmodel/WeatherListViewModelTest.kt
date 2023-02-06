@@ -6,10 +6,13 @@ import com.lek.absoluteweather.systemservices.location.ILocationService
 import com.lek.absoluteweather.systemservices.location.WeatherRequestWorkManager
 import com.lek.absoluteweather.systemservices.location.model.LocationStatus
 import com.lek.absoluteweather.systemservices.location.model.UserLocation
-import com.lek.absoluteweather.ui.model.ViewEvent
-import com.lek.absoluteweather.ui.viewmodel.WeatherListViewModel
 import com.lek.absoluteweather.systemservices.permission.IPermissionService
+import com.lek.absoluteweather.ui.model.ViewEvent
+import com.lek.absoluteweather.ui.weatherlist.WeatherListViewModel
+import com.lek.domain.model.Weather
 import com.lek.domain.usecase.GetWeatherResultStreamUseCase
+import com.lek.domain.usecase.SetSelectedWeatherUseCase
+import com.lek.domain.usecase.invoke
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -24,7 +27,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import com.lek.domain.usecase.invoke
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class WeatherListViewModelTest {
@@ -33,11 +35,13 @@ internal class WeatherListViewModelTest {
     private val locationService: ILocationService = mockk(relaxed = true)
     private val weatherRequestWorkManager: WeatherRequestWorkManager = mockk(relaxed = true)
     private val getWeatherResultStreamUseCase: GetWeatherResultStreamUseCase = mockk(relaxed = true)
+    private val setSelectedWeatherUseCase: SetSelectedWeatherUseCase = mockk(relaxed = true)
     private val viewModel = WeatherListViewModel(
         permissionService,
         locationService,
         weatherRequestWorkManager,
-        getWeatherResultStreamUseCase
+        getWeatherResultStreamUseCase,
+        setSelectedWeatherUseCase
     )
     private val testScheduler = TestCoroutineScheduler()
     private val testDispatcher = UnconfinedTestDispatcher(testScheduler)
@@ -83,6 +87,13 @@ internal class WeatherListViewModelTest {
             viewModel.onEvent(ViewEvent.RequestNotificationPermission)
             verify { permissionService.requestNotificationPermission() }
         }
+
+    @Test
+    fun `WHEN weather item is selected - selection is saved`() {
+        val weather: Weather = mockk()
+        viewModel.onEvent(ViewEvent.WeatherSelected(weather))
+        verify { setSelectedWeatherUseCase(weather = weather) }
+    }
 
     private fun setupPermissionsMocks() {
         Dispatchers.setMain(testDispatcher)

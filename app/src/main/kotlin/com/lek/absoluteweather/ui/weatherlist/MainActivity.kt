@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui
+package com.lek.absoluteweather.ui.weatherlist
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,11 +10,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.lek.absoluteweather.ui.theme.AbsoluteWeatherTheme
-import com.lek.absoluteweather.ui.weatherlist.component.WeatherListScreen
+import com.lek.absoluteweather.ui.details.WeatherDetailsActivity
 import com.lek.absoluteweather.ui.model.ViewEvent
 import com.lek.absoluteweather.ui.model.WeatherListState
-import com.lek.absoluteweather.ui.viewmodel.WeatherListViewModel
+import com.lek.absoluteweather.ui.theme.AbsoluteWeatherTheme
+import com.lek.absoluteweather.ui.weatherlist.component.WeatherListScreen
+import com.lek.domain.model.Weather
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,10 +43,16 @@ class MainActivity : ComponentActivity() {
                         onLocationEnableClicked = { viewModel.onEvent(ViewEvent.RequestLocationPermission) },
                         onLocationDenyClicked = { this.finish() },
                         onNotificationEnableClicked = { viewModel.onEvent(ViewEvent.RequestNotificationPermission) },
-                        onNotificationDenyClicked = { viewModel.onEvent(ViewEvent.UserDenyNotification) }
+                        onNotificationDenyClicked = { viewModel.onEvent(ViewEvent.UserDenyNotification) },
+                        onShowDetailsClicked = { openDetailScreen(it) }
                     )
                 }
             }
         }
+    }
+
+    private fun openDetailScreen(weather: Weather) {
+        viewModel.onEvent(ViewEvent.WeatherSelected(weather))
+        WeatherDetailsActivity.startFrom(this)
     }
 }

@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.lek.absoluteweather.ui.MainActivity
+import com.lek.absoluteweather.ui.weatherlist.MainActivity
 import com.lek.domain.model.WeatherRequest
 import com.lek.domain.model.WeatherResult
 import com.lek.domain.usecase.FetchWeatherUseCase

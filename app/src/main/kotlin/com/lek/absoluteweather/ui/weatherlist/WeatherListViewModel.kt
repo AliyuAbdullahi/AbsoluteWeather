@@ -1,4 +1,4 @@
-package com.lek.absoluteweather.ui.viewmodel
+package com.lek.absoluteweather.ui.weatherlist
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
@@ -10,6 +10,7 @@ import com.lek.absoluteweather.ui.model.ViewEvent
 import com.lek.absoluteweather.ui.model.WeatherListState
 import com.lek.domain.model.WeatherResult
 import com.lek.domain.usecase.GetWeatherResultStreamUseCase
+import com.lek.domain.usecase.SetSelectedWeatherUseCase
 import com.lek.domain.usecase.invoke
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,7 +24,8 @@ class WeatherListViewModel @Inject constructor(
     private val permissionService: IPermissionService,
     private val locationService: ILocationService,
     private val weatherRequestWorkManager: WeatherRequestWorkManager,
-    private val getWeatherResultStreamUseCase: GetWeatherResultStreamUseCase
+    private val getWeatherResultStreamUseCase: GetWeatherResultStreamUseCase,
+    private val setSelectedWeatherUseCase: SetSelectedWeatherUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableSharedFlow<WeatherListState> = MutableSharedFlow(replay = 1)
@@ -106,6 +108,7 @@ class WeatherListViewModel @Inject constructor(
             }
             ViewEvent.RequestLocationPermission -> requestLocationPermission()
             ViewEvent.RequestNotificationPermission -> requestNotificationPermission()
+            is ViewEvent.WeatherSelected -> setSelectedWeatherUseCase(viewEvent.data)
         }
     }
 }

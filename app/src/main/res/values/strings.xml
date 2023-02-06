@@ -13,4 +13,21 @@
     <string name="tomorrow_text">Tomorrow</string>
     <string name="formatted_day_month">%1$s</string>
     <string name="loading">Loading Weather Data…</string>
+    <string name="hot">Hot</string>
+    <string name="cold">Cold</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="temperature_label">Temperature</string>
+    <string name="max_temp">Max</string>
+    <string name="min_temp">Min</string>
+    <string name="feels_like_label">Feels like</string>
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
+    <string name="wind_speed">%1$.2f m/s</string>
+    <string name="humidity_in_percent">%1$s\%%</string>
+    <string name="pressure_value">%1$d hPa</string>
+    <string name="weather_details">Weather Details</string>
 </resources>

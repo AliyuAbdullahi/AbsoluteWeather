@@ -21,7 +21,8 @@ fun WeatherListScreen(
     onLocationEnableClicked: () -> Unit,
     onLocationDenyClicked: () -> Unit,
     onNotificationEnableClicked: () -> Unit,
-    onNotificationDenyClicked: () -> Unit
+    onNotificationDenyClicked: () -> Unit,
+    onShowDetailsClicked: (Weather) -> Unit
 ) {
     when {
         state.isLoading -> {
@@ -47,7 +48,7 @@ fun WeatherListScreen(
         }
 
         else -> {
-            WeatherList(weatherItems = state.weatherList)
+            WeatherList(weatherItems = state.weatherList, onShowDetailsClicked = onShowDetailsClicked)
         }
     }
 }
@@ -60,7 +61,7 @@ fun LoadingScreen() {
 }
 
 @Composable
-fun WeatherList(weatherItems: List<Weather>, onWeatherClicked: (Int) -> Unit = {}) {
+fun WeatherList(weatherItems: List<Weather>, onShowDetailsClicked: (Weather) -> Unit = {}) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(weatherItems) { weather ->
@@ -73,7 +74,7 @@ fun WeatherList(weatherItems: List<Weather>, onWeatherClicked: (Int) -> Unit = {
                         formattedDate = weather.getFormattedDate(),
                         city = weather.city,
                         weatherStatus = weather.getStatus(),
-                        onClick = { onWeatherClicked(weather.id) }
+                        onClick = { onShowDetailsClicked(weather) }
                     )
                 } else {
                     WeatherItem(
@@ -83,7 +84,7 @@ fun WeatherList(weatherItems: List<Weather>, onWeatherClicked: (Int) -> Unit = {
                             id = R.string.temperature_celsius, weather.getCurrentTemp()
                         ),
                         iconUrl = weather.iconUrl,
-                        onClick = { onWeatherClicked(weather.id) }
+                        onClick = { onShowDetailsClicked(weather) }
                     )
                 }
             }

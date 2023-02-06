@@ -7,6 +7,7 @@ import com.lek.data.repository.ModelMapper.toDomainModel
 import com.lek.data.repository.ModelMapper.toRoomEntity
 import com.lek.data.room.WeatherDao
 import com.lek.domain.IWeatherRepository
+import com.lek.domain.model.Weather
 import com.lek.domain.model.WeatherResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,6 +21,7 @@ class WeatherRepository(
 ) : IWeatherRepository {
 
     private val mutableInfo: MutableSharedFlow<WeatherResult> = MutableSharedFlow(replay = 1)
+    private var selectedWeather: Weather? = null
 
     override val weatherResultStream: Flow<WeatherResult>
         get() = mutableInfo
@@ -48,4 +50,10 @@ class WeatherRepository(
             }
         }
     }
+
+    override fun setSelectedWeather(weather: Weather) {
+        selectedWeather = weather
+    }
+
+    override fun getSelectedWeather(): Weather? = selectedWeather
 }
