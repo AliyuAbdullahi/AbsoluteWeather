@@ -7,8 +7,6 @@ data class UserLocation(
 
     val isValid = status != LocationStatus.FAILED && city.isNotBlank()
 
-    val playServiceRequired = status == LocationStatus.REQUIRES_PLAY_SERVICE
-
     companion object {
         val EMPTY = UserLocation(city = "", status = LocationStatus.UNKNOWN)
     }

@@ -1,6 +1,5 @@
 package com.lek.absoluteweather.systemservices
 
-import android.R
 import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.lek.absoluteweather.R
 import com.lek.absoluteweather.ui.weatherlist.MainActivity
 import com.lek.domain.model.WeatherRequest
 import com.lek.domain.model.WeatherResult
@@ -38,9 +38,20 @@ class WeatherService @AssistedInject constructor(
                 is WeatherResult.Failure -> Result.failure()
                 is WeatherResult.Success -> {
                     val data = result.data
+
                     if (data.isNotEmpty() && isAppOnForeground(context).not()) {
                         data.firstOrNull { it.isToday }?.let { weather ->
-                            displayNotification(weather.main, weather.description)
+                            val title = context.getString(
+                                R.string.weather_notification_title,
+                                weather.getCurrentTemp().toString(),
+                                weather.city
+                            )
+                            val description = context.getString(
+                                R.string.weather_notification_message,
+                                weather.main,
+                                weather.description
+                            )
+                            displayNotification(title, description)
                         }
                     }
                     Result.success()
@@ -96,7 +107,7 @@ class WeatherService @AssistedInject constructor(
             .setContentTitle(title)
             .setContentText(message)
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.mipmap.sym_def_app_icon)
+            .setSmallIcon(R.drawable.ic_app_icon)
         notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 }
