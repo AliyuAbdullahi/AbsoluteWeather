@@ -22,7 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,7 +54,7 @@ fun WeatherToday(
     val interactionSource = remember { MutableInteractionSource() }
     val rippleIndication = rememberRipple()
     Box(modifier = Modifier.padding(top = 16.dp, start = 8.dp, end = 8.dp)) {
-        val colors = when(weatherStatus) {
+        val colors = when (weatherStatus) {
             WeatherStatus.RAIN -> listOf(PaleBlue200, PaleBlue600)
             WeatherStatus.SNOW -> listOf(Gey200, Grey700)
             WeatherStatus.NORMAL -> listOf(Blue500, Blue900)
@@ -79,7 +79,11 @@ fun WeatherToday(
                     WeatherStatus.SNOW -> R.drawable.snow
                     WeatherStatus.NORMAL -> null
                 }?.let {
-                    ImageComponent(source = it, modifier = Modifier.fillMaxSize())
+                    ImageComponent(
+                        source = it,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
                 }
                 Column {
                     Row(
@@ -91,7 +95,11 @@ fun WeatherToday(
                             modifier = Modifier.size(100.dp),
                             contentAlignment = Alignment.CenterStart
                         ) {
-                            ImageComponent(source = iconUrl, modifier = Modifier.size(80.dp))
+                            ImageComponent(
+                                source = iconUrl,
+                                modifier = Modifier.size(80.dp),
+                                contentScale = ContentScale.Crop
+                            )
                         }
                         Column {
                             Text(

@@ -65,7 +65,7 @@ data class Weather(
 
     fun getFormattedDate(): String {
         val formatter = SimpleDateFormat("EE, dd MMM", Locale.getDefault())
-        return formatter.format(date)
+        return formatter.format(date * EPOCH_TIME_TO_CURRENT_DATE_MULTIPLIER)
     }
 
     fun getFormattedDayMonth(): String {
@@ -79,6 +79,15 @@ data class Weather(
             currentMain.contains("snow") -> WeatherStatus.SNOW
             currentMain.contains("rain") -> WeatherStatus.RAIN
             else -> WeatherStatus.NORMAL
+        }
+    }
+
+    fun getTemperatureStatus(): TemperatureStatus {
+        val temp = getCurrentTemp()
+        return when {
+            temp > 25.0 -> TemperatureStatus.HOT
+            temp < 10.0 -> TemperatureStatus.COLD
+            else -> TemperatureStatus.NORMAL
         }
     }
 }
@@ -99,4 +108,8 @@ enum class DayOfTheWeek {
 
 enum class WeatherStatus {
     RAIN, SNOW, NORMAL
+}
+
+enum class TemperatureStatus {
+    HOT, COLD, NORMAL
 }
