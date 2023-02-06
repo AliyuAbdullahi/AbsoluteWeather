@@ -1,6 +1,7 @@
 package com.lek.absoluteweather.systemservices
 
 import android.app.ActivityManager
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -38,7 +39,6 @@ class WeatherService @AssistedInject constructor(
                 is WeatherResult.Failure -> Result.failure()
                 is WeatherResult.Success -> {
                     val data = result.data
-
                     if (data.isNotEmpty() && isAppOnForeground(context).not()) {
                         data.firstOrNull { it.isToday }?.let { weather ->
                             val title = context.getString(
@@ -106,8 +106,11 @@ class WeatherService @AssistedInject constructor(
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(message)
+            .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_app_icon)
+            .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
+            .setVibrate(null)
         notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 }
