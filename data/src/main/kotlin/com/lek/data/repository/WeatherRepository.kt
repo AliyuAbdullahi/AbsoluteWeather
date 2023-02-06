@@ -12,7 +12,7 @@ import com.lek.domain.model.WeatherResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-private const val appId = "648a3aac37935e5b45e09727df728ac2" // grab app id from open weather api
+private const val appId = "" // grab app id from open weather api
 private const val RESPONSE_COUNT = 16
 
 class WeatherRepository(
