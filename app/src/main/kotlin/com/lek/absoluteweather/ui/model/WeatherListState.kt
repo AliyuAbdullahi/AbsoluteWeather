@@ -23,8 +23,6 @@ data class WeatherListState(
 }
 
 sealed interface ViewEvent {
-    object StartDetail : ViewEvent
-    object RefreshList : ViewEvent
     object UserDenyNotification : ViewEvent
     object RequestLocationPermission : ViewEvent
     object RequestNotificationPermission : ViewEvent

@@ -98,10 +98,6 @@ class WeatherListViewModel @Inject constructor(
 
     fun onEvent(viewEvent: ViewEvent) {
         when (viewEvent) {
-            ViewEvent.RefreshList -> { /* TODO start worker */
-            }
-            ViewEvent.StartDetail -> { /* TODO Open Details Screen */
-            }
             ViewEvent.UserDenyNotification -> {
                 updateState { copy(alreadyAskedForNotification = true) }
                 mutableState.tryEmit(weatherListState)
