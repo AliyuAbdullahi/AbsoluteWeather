@@ -53,7 +53,7 @@ data class Weather(
     fun getCurrentTemp(): Double {
         val calendar = Calendar.getInstance()
         calendar.time = Date(System.currentTimeMillis())
-        val hourOfTheDay = calendar.get(Calendar.HOUR_OF_DAY) + 1 // range is 0 to 23
+        val hourOfTheDay = calendar.get(Calendar.HOUR_OF_DAY)
         return when {
             hourOfTheDay < morningHoursMax -> morningTemp
             hourOfTheDay < afternoonHoursMax -> dayTemp
